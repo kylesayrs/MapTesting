@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Custom Google Map</title>
+    <style>
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 18,
+                center: {lat: 52.40241887397332, lng: 10.228271484375} // San Francisco
+            });
+
+            var baseLayer = new google.maps.ImageMapType({
+                getTileUrl: function(coord, zoom) {
+                    return 'https://mt0.google.com/vt/lyrs=s&hl=en&x=' + coord.x + '&y=' + coord.y + '&z=' + zoom;
+                },
+                tileSize: new google.maps.Size(256, 256),
+                maxZoom: 19,
+                minZoom: 0
+            });
+
+            map.overlayMapTypes.push(baseLayer);
+
+            var overlayLayer = new google.maps.ImageMapType({
+                getTileUrl: function(coord, zoom) {
+                    return 'http://localhost:80/fetch?LAYER=unittest&TILEROW=' + coord.y + '&TILECOL=' + coord.x + '&ZOOM=' + zoom;
+                },
+                tileSize: new google.maps.Size(256, 256),
+                maxZoom: 19,
+                minZoom: 0
+            });
+
+            map.overlayMapTypes.push(overlayLayer);
+        }
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap">
+    </script>
+</body>
+</html>
