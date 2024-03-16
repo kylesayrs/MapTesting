@@ -1,2 +1,2 @@
 # Map Testing #
-Used for testing mapping from different overlap sources
+Used for testing maps from different tile sources
